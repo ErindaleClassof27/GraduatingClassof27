@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Erindale Secondary School — Class of '27</title>
+<meta name="description" content="Erindale Secondary School, Class of 2027 — volunteer opportunities, leavers merch, career launchpad, and the countdown to graduation." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0B0B0C',
+          ink2: '#131315',
+          paper: '#F2F0EA',
+          faint: '#8B8B8F',
+          brass: '#B08F4E'
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          body: ['Inter', 'sans-serif'],
+          mono: ['"Space Mono"', 'monospace']
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  :root{
+    --bg:#0B0B0C;
+    --bg-soft:#131315;
+    --paper:#F2F0EA;
+    --faint:#8B8B8F;
+    --brass:#B08F4E;
+    --line: rgba(255,255,255,0.10);
+    --line-strong: rgba(255,255,255,0.18);
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; background:var(--bg); }
+  body{
+    background:var(--bg);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    overflow-x:hidden;
+    position:relative;
+  }
+  ::selection{ background:var(--brass); color:#0B0B0C; }
+
+  h1,h2,h3,h4,.font-display{ font-family:'Space Grotesk', sans-serif; letter-spacing:-0.015em; }
+  .font-mono{ font-family:'Space Mono', monospace; }
+
+  /* ---------- grain overlay ---------- */
+  .grain{
+    position:fixed; inset:0; z-index:35; pointer-events:none;
+    opacity:0.035; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- architectural frame (signature element) ---------- */
+  .frame-mark{
+    position:fixed; z-index:40; pointer-events:none; width:16px; height:16px; opacity:0.35;
+  }
+  .frame-mark::before, .frame-mark::after{ content:''; position:absolute; background:var(--paper); }
+  .frame-mark::before{ top:50%; left:0; width:100%; height:1px; transform:translateY(-50%); }
+  .frame-mark::after{ left:50%; top:0; height:100%; width:1px; transform:translateX(-50%); }
+  #mark-tl{ top:20px; left:20px; }
+  #mark-tr{ top:20px; right:20px; }
+  #mark-bl{ bottom:20px; left:20px; }
+  #mark-br{ bottom:20px; right:20px; }
+
+  #coord-tag{
+    position:fixed; left:20px; bottom:44px; z-index:40; pointer-events:none;
+    font-size:10px; letter-spacing:0.16em; color:var(--faint); text-transform:uppercase;
+  }
+  #progress-tag{
+    position:fixed; right:20px; bottom:44px; z-index:40; pointer-events:none;
+    font-size:10px; letter-spacing:0.16em; color:var(--faint); text-transform:uppercase;
+  }
+  @media (max-width: 767px){ #coord-tag, #progress-tag, .frame-mark{ display:none; } }
+
+  /* ---------- custom cursor ---------- */
+  .cursor-dot, .cursor-ring{
+    position:fixed; top:0; left:0; pointer-events:none; z-index:70;
+    border-radius:50%; transform:translate(-50%,-50%);
+    will-change:transform;
+  }
+  .cursor-dot{ width:5px; height:5px; background:var(--paper); }
+  .cursor-ring{
+    width:34px; height:34px; border:1px solid rgba(242,240,234,0.4);
+    transition:width .25s ease, height .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .cursor-ring.big{ width:64px; height:64px; background:rgba(176,143,78,0.08); border-color:var(--brass); }
+  body.no-cursor, body.no-cursor a, body.no-cursor button{ cursor:none; }
+
+  /* ---------- surfaces ---------- */
+  .card{
+    background:var(--bg-soft);
+    border:1px solid var(--line);
+  }
+  .card:hover{ border-color:var(--line-strong); }
+
+  .accent-text{ color:var(--brass); }
+
+  .hairline{ background:var(--line); height:1px; }
+
+  /* ---------- nav ---------- */
+  #nav{
+    position:fixed; top:0; left:0; right:0; z-index:50;
+    transition:background .4s ease, border-color .4s ease;
+    border-bottom:1px solid transparent;
+  }
+  #nav.scrolled{
+    background:rgba(11,11,12,0.82);
+    backdrop-filter:blur(14px);
+    border-color:var(--line);
+  }
+  .nav-link{ position:relative; }
+  .nav-link::after{
+    content:''; position:absolute; left:0; right:100%; bottom:-4px; height:1px; background:var(--brass);
+    transition:right .3s cubic-bezier(.7,0,.3,1);
+  }
+  .nav-link:hover::after{ right:0; }
+
+  /* ---------- hero numeral ---------- */
+  #numeral-watermark{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(220px, 42vw, 640px);
+    line-height:1;
+    color:transparent;
+    -webkit-text-stroke: 1px rgba(242,240,234,0.14);
+    user-select:none;
+    will-change:transform;
+  }
+
+  [data-magnetic]{ transition:transform .35s cubic-bezier(.2,.9,.3,1); }
+
+  /* ---------- marquee ---------- */
+  .marquee-track{
+    display:flex; width:max-content;
+    animation:scroll-x 38s linear infinite;
+  }
+  .marquee-track.slow{ animation-duration:70s; }
+  @keyframes scroll-x{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+  .marquee-wrap:hover .marquee-track{ animation-play-state: paused; }
+
+  /* ---------- tilt card ---------- */
+  [data-tilt]{ transform-style:preserve-3d; transition:transform .12s ease-out; will-change:transform; }
+
+  /* ---------- accordion ---------- */
+  .accordion-panel{ max-height:0; overflow:hidden; transition:max-height .5s cubic-bezier(.7,0,.3,1), opacity .4s ease; opacity:0; }
+  .accordion-item.open .accordion-panel{ opacity:1; }
+  .accordion-item .chev{ transition:transform .4s ease; }
+  .accordion-item.open .chev{ transform:rotate(180deg); }
+
+  /* ---------- filter tabs ---------- */
+  .filter-tab{ transition:all .25s ease; }
+  .filter-tab.active{ background:var(--paper); color:#0B0B0C; border-color:var(--paper); }
+
+  /* fade utility for JS-triggered reveals */
+  .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* dropzone */
+  #dropzone.drag-active{ border-color:var(--brass); background:rgba(176,143,78,0.05); }
+
+  .mask-grid img, .mask-grid .memory-card{ break-inside:avoid; margin-bottom:1rem; }
+
+  /* modal */
+  #modal-backdrop{ backdrop-filter:blur(4px); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:#232326; border-radius:0; }
+
+  :focus-visible{ outline:2px solid var(--brass); outline-offset:3px; }
+
+  body.modal-open{ overflow:hidden; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; }
+    html{ scroll-behavior:auto; }
+  }
+
+  @media (max-width: 767px){
+    #numeral-watermark{ font-size:clamp(140px, 55vw, 340px); }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="frame-mark" id="mark-tl"></div>
+<div class="frame-mark" id="mark-tr"></div>
+<div class="frame-mark" id="mark-bl"></div>
+<div class="frame-mark" id="mark-br"></div>
+<p id="coord-tag" class="font-mono">43.5665° N, 79.6285° W — Mississauga</p>
+<p id="progress-tag" class="font-mono">Scroll <span id="progressPct">00</span>%</p>
+
+<!-- ============ NAV ============ -->
+<nav id="nav" class="px-6 md:px-10 py-5">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <a href="#hero" class="font-display font-bold text-xl tracking-tight flex items-center gap-2">
+      <span class="accent-text">27′</span>
+      <span class="hidden sm:inline text-faint font-mono text-[11px] tracking-[0.2em] font-normal uppercase">Erindale SS</span>
+    </a>
+    <div class="hidden md:flex items-center gap-9 font-mono text-[12px] tracking-[0.12em] uppercase text-paper/80">
+      <a href="#merch" class="nav-link">Merch</a>
+      <a href="#volunteer" class="nav-link">Volunteer</a>
+      <a href="#careers" class="nav-link">Careers</a>
+      <a href="#graduation" class="nav-link">Graduation</a>
+      <a href="#memories" class="nav-link">Memories</a>
+    </div>
+    <a href="#memories" data-magnetic class="hidden md:inline-block border border-white/15 text-paper text-[12px] font-mono uppercase tracking-[0.14em] px-5 py-2.5 hover:border-brass hover:text-brass transition-colors">
+      Join the wall
+    </a>
+    <button id="menuBtn" class="md:hidden text-paper" aria-label="Open menu">
+      <i data-lucide="menu" class="w-6 h-6"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- mobile menu -->
+<div id="mobileMenu" class="fixed inset-0 z-[55] bg-ink/98 flex flex-col items-center justify-center gap-8 translate-y-[-100%] transition-transform duration-500 ease-[cubic-bezier(.7,0,.3,1)] md:hidden">
+  <button id="menuClose" class="absolute top-6 right-6 text-paper" aria-label="Close menu"><i data-lucide="x" class="w-7 h-7"></i></button>
+  <a href="#merch" class="mobile-link font-display text-3xl">Merch</a>
+  <a href="#volunteer" class="mobile-link font-display text-3xl">Volunteer</a>
+  <a href="#careers" class="mobile-link font-display text-3xl">Careers</a>
+  <a href="#graduation" class="mobile-link font-display text-3xl">Graduation</a>
+  <a href="#memories" class="mobile-link font-display text-3xl">Memories</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative min-h-[100svh] flex items-center overflow-hidden border-b border-white/10">
+  <canvas id="hero-canvas" class="absolute inset-0 w-full h-full"></canvas>
+
+  <div id="numeral-watermark" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[1]">27</div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
+    <p class="font-mono text-faint text-[12px] tracking-[0.32em] uppercase mb-6 reveal">Mississauga, Ontario</p>
+    <h1 class="font-display font-bold leading-[0.92] text-[15vw] md:text-[7.5vw] tracking-tight reveal">
+      <span class="block">ERINDALE</span>
+      <span class="block">CLASS OF <span class="accent-text">'27</span></span>
+    </h1>
+    <p class="mt-7 max-w-md text-faint text-lg reveal">The end of an era. The start of everything.</p>
+
+    <div class="mt-10 flex flex-wrap items-center gap-5 reveal">
+      <a href="#memories" data-magnetic class="group relative inline-flex items-center gap-3 bg-paper text-ink font-mono text-[13px] uppercase tracking-[0.14em] px-7 py-4 font-medium">
+        <span>Enter the memory wall</span>
+        <i data-lucide="arrow-down" class="w-4 h-4 transition-transform group-hover:translate-y-1"></i>
+      </a>
+      <a href="#graduation" data-magnetic class="inline-flex items-center gap-2 text-faint font-mono text-[12px] uppercase tracking-[0.14em] hover:text-brass transition-colors">
+        <i data-lucide="clock" class="w-4 h-4"></i> Countdown to convocation
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-faint reveal">
+    <span class="font-mono text-[10px] tracking-[0.3em] uppercase">Scroll</span>
+    <span class="w-px h-10 bg-gradient-to-b from-white/30 to-transparent"></span>
+  </div>
+</section>
+
+<!-- ticker strip -->
+<div class="marquee-wrap relative border-b border-white/10 bg-ink2 py-3 overflow-hidden z-10">
+  <div class="marquee-track font-mono text-[12px] tracking-[0.25em] uppercase text-faint">
+    <span class="px-6 whitespace-nowrap">Graduation · June 26, 2027 · Erindale Secondary School · Class of '27 · Graduation · June 26, 2027 · Erindale Secondary School · Class of '27 · </span>
+    <span class="px-6 whitespace-nowrap" aria-hidden="true">Graduation · June 26, 2027 · Erindale Secondary School · Class of '27 · Graduation · June 26, 2027 · Erindale Secondary School · Class of '27 · </span>
+  </div>
+</div>
+
+<!-- ============ MERCH ============ -->
+<section id="merch" class="relative py-28 md:py-36 px-6 md:px-10 border-b border-white/10">
+  <div class="max-w-7xl mx-auto relative">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-14 reveal">
+      <div>
+        <p class="font-mono text-faint text-[12px] tracking-[0.28em] uppercase mb-3">02 — Leavers Collection</p>
+        <h2 class="font-display font-bold text-4xl md:text-6xl">Wear the year out.</h2>
+      </div>
+      <p class="max-w-xs text-faint text-sm">One shirt, one class, one last lap around these halls. Pre-orders close before winter break.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+      <!-- tilt card -->
+      <div class="reveal">
+        <div id="shirtCard" data-tilt class="card p-10 md:p-14 relative aspect-[4/5] flex items-center justify-center">
+          <svg id="shirtSvg" viewBox="0 0 200 220" class="w-56 md:w-64 relative z-10">
+            <path fill="#F2F0EA" d="M60 10 L20 35 L35 65 L55 55 L55 200 Q100 212 145 200 L145 55 L165 65 L180 35 L140 10 Q100 28 60 10 Z"/>
+            <text x="100" y="140" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-weight="700" font-size="46" fill="#0B0B0C" opacity="0.9">27</text>
+          </svg>
+          <span class="absolute top-6 left-6 font-mono text-[10px] tracking-[0.2em] uppercase text-faint">Official leavers tee</span>
+        </div>
+      </div>
+
+      <!-- controls -->
+      <div class="reveal">
+        <h3 class="font-display font-bold text-2xl mb-1">Class of '27 Leavers Tee</h3>
+        <p class="text-faint text-sm mb-8 font-mono">$32.00 CAD · Heavyweight cotton</p>
+
+        <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-faint mb-3">Colourway</p>
+        <div id="colorSwatches" class="flex items-center gap-4 mb-8">
+          <button data-color="#F2F0EA" data-fill="#0B0B0C" class="color-swatch w-9 h-9 rounded-full border-2 border-brass" style="background:#F2F0EA" aria-label="Bone White"></button>
+          <button data-color="#0B0B0C" data-fill="#F2F0EA" class="color-swatch w-9 h-9 rounded-full border-2 border-white/20" style="background:#0B0B0C" aria-label="Ink Black"></button>
+          <button data-color="#B08F4E" data-fill="#0B0B0C" class="color-swatch w-9 h-9 rounded-full border-2 border-white/20" style="background:#B08F4E" aria-label="Brass"></button>
+        </div>
+
+        <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-faint mb-3">Size</p>
+        <div id="sizeSelector" class="flex flex-wrap gap-3 mb-10">
+          <button data-size="S" class="size-btn font-mono text-sm w-12 h-12 border border-white/15 hover:border-brass transition-colors">S</button>
+          <button data-size="M" class="size-btn font-mono text-sm w-12 h-12 border border-white/15 hover:border-brass transition-colors">M</button>
+          <button data-size="L" class="size-btn font-mono text-sm w-12 h-12 border border-paper bg-paper text-ink transition-colors">L</button>
+          <button data-size="XL" class="size-btn font-mono text-sm w-12 h-12 border border-white/15 hover:border-brass transition-colors">XL</button>
+          <button data-size="XXL" class="size-btn font-mono text-sm w-12 h-12 border border-white/15 hover:border-brass transition-colors">2XL</button>
+        </div>
+
+        <button type="button" id="openModalBtn" data-magnetic class="inline-flex items-center gap-3 bg-paper text-ink font-mono text-[13px] uppercase tracking-[0.14em] px-8 py-4 font-medium hover:bg-brass transition-colors">
+          Claim yours <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VOLUNTEER OPPORTUNITIES ============ -->
+<section id="volunteer" class="relative py-28 md:py-36 px-6 md:px-10 border-b border-white/10">
+  <div class="max-w-7xl mx-auto">
+    <p class="font-mono text-faint text-[12px] tracking-[0.28em] uppercase mb-3 reveal">03 — Volunteer Opportunities</p>
+    <h2 class="font-display font-bold text-4xl md:text-6xl mb-14 reveal max-w-2xl">Sign up. Show up. Log the hours.</h2>
+
+    <div class="flex items-center gap-3 flex-wrap mb-10 reveal" id="initFilters">
+      <button data-filter="all" class="filter-tab active font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">All</button>
+      <button data-filter="Environment" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Environment</button>
+      <button data-filter="Mentorship" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Mentorship</button>
+      <button data-filter="Food Security" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Food Security</button>
+      <button data-filter="Fundraising" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Fundraising</button>
+      <button data-filter="Health" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Health</button>
+    </div>
+
+    <div id="initiativeGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+<!-- ============ CAREERS ============ -->
+<section id="careers" class="relative py-28 md:py-36 px-6 md:px-10 border-b border-white/10">
+  <div class="max-w-7xl mx-auto relative">
+    <p class="font-mono text-faint text-[12px] tracking-[0.28em] uppercase mb-3 reveal">04 — Launchpad</p>
+    <h2 class="font-display font-bold text-4xl md:text-6xl mb-14 reveal max-w-2xl">What's next, close to home.</h2>
+
+    <div class="flex items-center gap-3 flex-wrap mb-10 reveal" id="jobFilters">
+      <button data-filter="all" class="filter-tab active font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">All</button>
+      <button data-filter="Part-Time" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Part-Time</button>
+      <button data-filter="Tech" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Tech</button>
+      <button data-filter="Creative" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Creative</button>
+      <button data-filter="Trades" class="filter-tab font-mono text-[11px] uppercase tracking-[0.12em] px-5 py-2.5 border border-white/15">Trades</button>
+    </div>
+
+    <div id="jobList" class="flex flex-col gap-3"></div>
+  </div>
+</section>
+
+<!-- ============ GRADUATION HUB ============ -->
+<section id="graduation" class="relative py-28 md:py-36 px-6 md:px-10 border-b border-white/10">
+  <div class="max-w-7xl mx-auto">
+    <p class="font-mono text-faint text-[12px] tracking-[0.28em] uppercase mb-3 reveal">05 — Graduation Hub</p>
+    <h2 class="font-display font-bold text-4xl md:text-6xl mb-14 reveal max-w-2xl">Convocation, June 26, 2027.</h2>
+
+    <div class="grid lg:grid-cols-[1.1fr_1fr] gap-14">
+      <div class="reveal">
+        <p class="font-mono text-[11px] tracking-[0.2em] uppercase text-faint mb-5">Time remaining</p>
+        <div id="countdown" class="grid grid-cols-4 gap-3 md:gap-5 mb-14">
+          <div class="card text-center py-6 md:py-8">
+            <p id="cd-days" class="font-display font-bold text-3xl md:text-5xl">000</p>
+            <p class="font-mono text-[10px] tracking-[0.14em] uppercase text-faint mt-2">Days</p>
+          </div>
+          <div class="card text-center py-6 md:py-8">
+            <p id="cd-hours" class="font-display font-bold text-3xl md:text-5xl">00</p>
+            <p class="font-mono text-[10px] tracking-[0.14em] uppercase text-faint mt-2">Hours</p>
+          </div>
+          <div class="card text-center py-6 md:py-8">
+            <p id="cd-min" class="font-display font-bold text-3xl md:text-5xl">00</p>
+            <p class="font-mono text-[10px] tracking-[0.14em] uppercase text-faint mt-2">Minutes</p>
+          </div>
+          <div class="card text-center py-6 md:py-8">
+            <p id="cd-sec" class="font-display font-bold text-3xl md:text-5xl">00</p>
+            <p class="font-mono text-[10px] tracking-[0.14em] uppercase text-faint mt-2">Seconds</p>
+          </div>
+        </div>
+
+        <div id="accordion" class="flex flex-col gap-3"></div>
+      </div>
+
+      <div class="reveal">
+        <div class="card p-8 md:p-10 h-full flex flex-col justify-between">
+          <div>
+            <i data-lucide="graduation-cap" class="w-8 h-8 accent-text mb-6"></i>
+            <h3 class="font-display font-bold text-2xl mb-3">Ceremony details</h3>
+            <ul class="space-y-4 text-sm text-faint font-mono">
+              <li class="flex items-start gap-3"><i data-lucide="map-pin" class="w-4 h-4 mt-0.5 accent-text shrink-0"></i> Paramount Fine Foods Centre, Mississauga</li>
+              <li class="flex items-start gap-3"><i data-lucide="calendar" class="w-4 h-4 mt-0.5 accent-text shrink-0"></i> Thursday, June 26, 2027 — 6:00 PM</li>
+              <li class="flex items-start gap-3"><i data-lucide="ticket" class="w-4 h-4 mt-0.5 accent-text shrink-0"></i> 4 guest tickets per graduate</li>
+            </ul>
+          </div>
+          <a href="#memories" data-magnetic class="mt-10 inline-flex items-center justify-center gap-2 border border-white/15 text-paper font-mono text-[12px] uppercase tracking-[0.14em] px-6 py-3.5 hover:border-brass hover:text-brass transition-colors">
+            Save a memory for after <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEMORIES ============ -->
+<section id="memories" class="relative py-28 md:py-36 px-6 md:px-10 border-b border-white/10">
+  <div class="max-w-7xl mx-auto relative">
+    <p class="font-mono text-faint text-[12px] tracking-[0.28em] uppercase mb-3 reveal">06 — Memory Wall</p>
+    <h2 class="font-display font-bold text-4xl md:text-6xl mb-14 reveal max-w-2xl">Polaroids, quotes, and last calls.</h2>
+
+    <div class="grid lg:grid-cols-[0.9fr_1.4fr] gap-10 mb-14">
+      <div class="reveal">
+        <div id="dropzone" class="card border-dashed border-2 border-white/15 p-10 h-full flex flex-col items-center justify-center text-center transition-colors">
+          <i data-lucide="image-plus" class="w-9 h-9 accent-text mb-5"></i>
+          <p class="font-display font-bold text-xl mb-2">Drop your photos or video</p>
+          <p class="text-faint text-sm mb-6">or browse from your device — JPG, PNG, MP4</p>
+          <label for="fileInput" class="cursor-pointer inline-flex items-center gap-2 border border-white/15 text-paper font-mono text-[11px] uppercase tracking-[0.14em] px-5 py-3 hover:border-brass hover:text-brass transition-colors">
+            Choose files
+          </label>
+          <input type="file" id="fileInput" accept="image/*,video/*" multiple class="hidden" />
+
+          <form id="quoteForm" class="w-full mt-9 pt-9 border-t border-white/10 flex flex-col gap-3 text-left">
+            <label class="font-mono text-[10px] tracking-[0.16em] uppercase text-faint">Or leave your senior quote</label>
+            <textarea id="quoteInput" rows="2" maxlength="140" placeholder="Type it like you mean it…" class="bg-white/5 border border-white/10 px-4 py-3 text-sm focus:border-brass outline-none resize-none placeholder:text-faint/60"></textarea>
+            <input id="quoteName" type="text" maxlength="40" placeholder="Your name" class="bg-white/5 border border-white/10 px-4 py-3 text-sm focus:border-brass outline-none placeholder:text-faint/60" />
+            <button type="submit" data-magnetic class="self-start mt-1 inline-flex items-center gap-2 bg-paper text-ink font-mono text-[11px] uppercase tracking-[0.14em] px-6 py-3 font-medium">
+              Pin it to the wall
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div id="mask-grid" class="mask-grid columns-2 md:columns-3 gap-4"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="relative pt-24 pb-10 bg-ink2 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-6 md:px-10 mb-16">
+    <h3 class="font-mono text-[11px] tracking-[0.2em] uppercase text-faint mb-8">The roster — 486 strong</h3>
+  </div>
+
+  <div class="marquee-wrap border-y border-white/10 py-5 mb-16 overflow-hidden">
+    <div class="marquee-track slow font-display font-bold text-2xl md:text-3xl text-white/10" id="rosterTrack"></div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 md:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+    <a href="#hero" class="font-display font-bold text-2xl accent-text">27′</a>
+    <div class="flex items-center gap-5">
+      <a href="#" data-magnetic aria-label="Instagram" class="text-faint hover:text-brass transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+      <a href="#" data-magnetic aria-label="TikTok" class="text-faint hover:text-brass transition-colors"><i data-lucide="music-2" class="w-5 h-5"></i></a>
+      <a href="#" data-magnetic aria-label="Email" class="text-faint hover:text-brass transition-colors"><i data-lucide="mail" class="w-5 h-5"></i></a>
+    </div>
+    <p class="font-mono text-[11px] text-faint/70 tracking-[0.1em]">© 2027 Erindale Secondary School · Class of '27</p>
+  </div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div id="modal-backdrop" class="fixed inset-0 bg-black/70 z-[80] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+<div id="modal" class="fixed inset-0 z-[90] flex items-center justify-center px-6 opacity-0 pointer-events-none transition-opacity duration-300" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="card max-w-md w-full p-8 md:p-10 relative">
+    <button type="button" id="modalClose" class="absolute top-5 right-5 w-9 h-9 flex items-center justify-center border border-white/15 text-faint hover:text-brass hover:border-brass transition-colors" aria-label="Close">
+      <i data-lucide="x" class="w-4 h-4"></i>
+    </button>
+    <p class="font-mono text-faint text-[11px] tracking-[0.2em] uppercase mb-2">Pre-order</p>
+    <h3 id="modalTitle" class="font-display font-bold text-2xl mb-6">Claim your leavers tee</h3>
+    <p id="modalSummary" class="text-sm text-faint mb-6 font-mono">Size L · Bone White</p>
+    <form id="orderForm" class="flex flex-col gap-4">
+      <input required type="text" placeholder="Full name" class="bg-white/5 border border-white/10 px-4 py-3 text-sm focus:border-brass outline-none placeholder:text-faint/60" />
+      <input required type="email" placeholder="School email" class="bg-white/5 border border-white/10 px-4 py-3 text-sm focus:border-brass outline-none placeholder:text-faint/60" />
+      <input required type="text" placeholder="Student number" class="bg-white/5 border border-white/10 px-4 py-3 text-sm focus:border-brass outline-none placeholder:text-faint/60" />
+      <button type="submit" class="mt-2 inline-flex items-center justify-center gap-2 bg-paper text-ink font-mono text-[12px] uppercase tracking-[0.14em] px-6 py-3.5 font-medium hover:bg-brass transition-colors">
+        Confirm pre-order
+      </button>
+    </form>
+    <p id="orderSuccess" class="hidden text-center py-6">
+      <i data-lucide="check-circle" class="w-8 h-8 accent-text mx-auto mb-3"></i>
+      <span class="block font-display font-bold text-lg">You're on the list.</span>
+      <span class="block text-faint text-sm mt-1 font-mono">Confirmation sent to your inbox.</span>
+    </p>
+  </div>
+</div>
+
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+(function(){
+  "use strict";
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  /* ---------------- Icons ---------------- */
+  if (window.lucide) lucide.createIcons();
+
+  /* ---------------- Nav ---------------- */
+  const nav = document.getElementById('nav');
+  const progressPct = document.getElementById('progressPct');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    const h = document.documentElement;
+    const scrolled = h.scrollTop || document.body.scrollTop;
+    const height = (h.scrollHeight || document.body.scrollHeight) - h.clientHeight;
+    const pct = height > 0 ? Math.min(100, Math.round((scrolled/height)*100)) : 0;
+    if (progressPct) progressPct.textContent = String(pct).padStart(2,'0');
+  }, { passive:true });
+
+  const menuBtn = document.getElementById('menuBtn');
+  const menuClose = document.getElementById('menuClose');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuBtn.addEventListener('click', () => mobileMenu.style.transform = 'translateY(0)');
+  menuClose.addEventListener('click', () => mobileMenu.style.transform = 'translateY(-100%)');
+  document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.style.transform = 'translateY(-100%)'));
+
+  /* ---------------- Custom cursor ---------------- */
+  let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
+  if (finePointer && !reduceMotion) {
+    document.body.classList.add('no-cursor');
+    const dot = document.getElementById('cursorDot');
+    const ring = document.getElementById('cursorRing');
+    let ringX = mouseX, ringY = mouseY;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%,-50%)`;
+    });
+
+    function ringLoop(){
+      ringX += (mouseX - ringX) * 0.16;
+      ringY += (mouseY - ringY) * 0.16;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%,-50%)`;
+      requestAnimationFrame(ringLoop);
+    }
+    ringLoop();
+
+    document.querySelectorAll('a, button, [data-tilt], input, textarea, label').forEach(el => {
+      el.addEventListener('mouseenter', () => ring.classList.add('big'));
+      el.addEventListener('mouseleave', () => ring.classList.remove('big'));
+    });
+  } else {
+    window.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; }, {passive:true});
+  }
+
+  /* ---------------- Magnetic buttons ---------------- */
+  if (finePointer && !reduceMotion && window.gsap) {
+    document.querySelectorAll('[data-magnetic]').forEach(el => {
+      const xTo = gsap.quickTo(el, "x", { duration:0.5, ease:"power3" });
+      const yTo = gsap.quickTo(el, "y", { duration:0.5, ease:"power3" });
+      el.addEventListener('mousemove', (e) => {
+        const r = el.getBoundingClientRect();
+        const relX = e.clientX - (r.left + r.width/2);
+        const relY = e.clientY - (r.top + r.height/2);
+        xTo(relX * 0.3); yTo(relY * 0.3);
+      });
+      el.addEventListener('mouseleave', () => { xTo(0); yTo(0); });
+    });
+  }
+
+  /* ---------------- Tilt card ---------------- */
+  if (finePointer && !reduceMotion) {
+    document.querySelectorAll('[data-tilt]').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `perspective(900px) rotateY(${px*8}deg) rotateX(${-py*8}deg) scale(1.015)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = 'perspective(900px) rotateY(0) rotateX(0) scale(1)'; });
+    });
+  }
+
+  /* ---------------- Reveal on scroll ---------------- */
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('in'); io.unobserve(entry.target); } });
+  }, { threshold:0.15 });
+  revealEls.forEach(el => io.observe(el));
+
+  /* ---------------- Numeral parallax ---------------- */
+  const numeral = document.getElementById('numeral-watermark');
+  if (!reduceMotion) {
+    window.addEventListener('mousemove', (e) => {
+      const px = (e.clientX / window.innerWidth) - 0.5;
+      const py = (e.clientY / window.innerHeight) - 0.5;
+      numeral.style.transform = `translate(-50%,-50%) perspective(1200px) rotateY(${px*8}deg) rotateX(${-py*6}deg) translateX(${px*16}px)`;
+    }, { passive:true });
+  }
+
+  /* ---------------- Three.js hero particles ---------------- */
+  (function heroScene(){
+    const canvas = document.getElementById('hero-canvas');
+    if (!window.THREE || !canvas) return;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha:true, antialias:true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 100);
+    camera.position.z = 14;
+
+    function setSize(){
+      const w = canvas.parentElement.clientWidth, h = canvas.parentElement.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w/h; camera.updateProjectionMatrix();
+    }
+    setSize();
+    window.addEventListener('resize', setSize);
+
+    const count = reduceMotion ? 260 : 1100;
+    const geo = new THREE.BufferGeometry();
+    const positions = new Float32Array(count*3);
+    const colors = new Float32Array(count*3);
+    const paperC = new THREE.Color('#F2F0EA');
+    const brassC = new THREE.Color('#B08F4E');
+    for (let i=0;i<count;i++){
+      positions[i*3] = (Math.random()-0.5)*24;
+      positions[i*3+1] = (Math.random()-0.5)*14;
+      positions[i*3+2] = (Math.random()-0.5)*14;
+      const c = Math.random() > 0.85 ? brassC : paperC;
+      colors[i*3]=c.r; colors[i*3+1]=c.g; colors[i*3+2]=c.b;
+    }
+    geo.setAttribute('position', new THREE.BufferAttribute(positions,3));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors,3));
+    const mat = new THREE.PointsMaterial({ size:0.035, vertexColors:true, transparent:true, opacity:0.5, sizeAttenuation:true });
+    const points = new THREE.Points(geo, mat);
+    scene.add(points);
+
+    const icoGeo = new THREE.IcosahedronGeometry(4.2, 1);
+    const icoMat = new THREE.MeshBasicMaterial({ color:'#F2F0EA', wireframe:true, transparent:true, opacity:0.06 });
+    const ico = new THREE.Mesh(icoGeo, icoMat);
+    scene.add(ico);
+
+    let px = 0, py = 0;
+    window.addEventListener('mousemove', (e) => {
+      px = (e.clientX / window.innerWidth) - 0.5;
+      py = (e.clientY / window.innerHeight) - 0.5;
+    }, { passive:true });
+
+    let raf;
+    let visible = true;
+    document.addEventListener('visibilitychange', () => { visible = !document.hidden; });
+
+    function loop(){
+      raf = requestAnimationFrame(loop);
+      if (!visible) return;
+      points.rotation.y += 0.0008;
+      points.rotation.x += 0.0002;
+      ico.rotation.y += 0.0014;
+      ico.rotation.x += 0.0007;
+      camera.position.x += (px*2.2 - camera.position.x) * 0.03;
+      camera.position.y += (-py*1.5 - camera.position.y) * 0.03;
+      camera.lookAt(0,0,0);
+      renderer.render(scene, camera);
+    }
+    loop();
+  })();
+
+  /* ---------------- Merch controls ---------------- */
+  let currentColor = { name:'Bone White', fill:'#F2F0EA' };
+  let currentSize = 'L';
+  const shirtPath = document.querySelector('#shirtSvg path');
+  const shirtText = document.querySelector('#shirtSvg text');
+  document.querySelectorAll('.color-swatch').forEach(sw => {
+    sw.addEventListener('click', () => {
+      document.querySelectorAll('.color-swatch').forEach(s => { s.classList.remove('border-brass'); s.classList.add('border-white/20'); });
+      sw.classList.remove('border-white/20'); sw.classList.add('border-brass');
+      const color = sw.dataset.color, textFill = sw.dataset.fill;
+      shirtPath.setAttribute('fill', color);
+      shirtText.setAttribute('fill', textFill);
+      currentColor = { name: sw.getAttribute('aria-label'), fill:color };
+    });
+  });
+  document.querySelectorAll('.size-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('bg-paper','text-ink','border-paper'));
+      btn.classList.add('bg-paper','text-ink','border-paper');
+      currentSize = btn.dataset.size;
+    });
+  });
+
+  /* ---------------- Modal ---------------- */
+  const modal = document.getElementById('modal');
+  const modalBackdrop = document.getElementById('modal-backdrop');
+  const modalSummary = document.getElementById('modalSummary');
+  const orderForm = document.getElementById('orderForm');
+  const orderSuccess = document.getElementById('orderSuccess');
+  let lastFocused = null;
+
+  function openModal(){
+    lastFocused = document.activeElement;
+    modalSummary.textContent = `Size ${currentSize} · ${currentColor.name}`;
+    modal.classList.remove('pointer-events-none'); modalBackdrop.classList.remove('pointer-events-none');
+    modal.style.opacity = 1; modalBackdrop.style.opacity = 1;
+    orderForm.classList.remove('hidden'); orderSuccess.classList.add('hidden');
+    document.body.classList.add('modal-open');
+    document.getElementById('modalClose').focus();
+  }
+  function closeModal(){
+    modal.style.opacity = 0; modalBackdrop.style.opacity = 0;
+    document.body.classList.remove('modal-open');
+    setTimeout(() => {
+      modal.classList.add('pointer-events-none'); modalBackdrop.classList.add('pointer-events-none');
+    }, 300);
+    if (lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
+  }
+  document.getElementById('openModalBtn').addEventListener('click', openModal);
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modalBackdrop.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.classList.contains('pointer-events-none')) closeModal();
+  });
+  orderForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    orderForm.classList.add('hidden');
+    orderSuccess.classList.remove('hidden');
+  });
+
+  /* ---------------- Countdown ---------------- */
+  const TARGET = new Date('2027-06-26T18:00:00-04:00').getTime();
+  function tickCountdown(){
+    const now = Date.now();
+    let diff = Math.max(0, TARGET - now);
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(days).padStart(3,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-min').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-sec').textContent = String(secs).padStart(2,'0');
+  }
+  tickCountdown();
+  setInterval(tickCountdown, 1000);
+
+  /* ---------------- Accordion ---------------- */
+  const accordionData = [
+    { title:'Venue & parking', content:'Paramount Fine Foods Centre, 5500 Rose Cherry Pl, Mississauga. Doors open 5:00 PM, ceremony begins 6:00 PM sharp. Free parking in Lot C for guests.' },
+    { title:'Schedule of events', content:'5:00 PM guest arrival · 6:00 PM processional · 6:15 PM valedictory address · 7:30 PM diploma presentation · 8:30 PM closing photos and reception in the lobby.' },
+    { title:'Dress code', content:'Formal attire under the graduation gown. Comfortable shoes recommended — there is a short walk from parking to the venue entrance.' },
+    { title:'Guest tickets', content:'Every graduate receives 4 guest tickets, distributed through the main office starting in May. Additional tickets are subject to venue capacity.' }
+  ];
+  const accordionEl = document.getElementById('accordion');
+  accordionData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'accordion-item card overflow-hidden' + (i===0 ? ' open' : '');
+    div.innerHTML = `
+      <button type="button" class="acc-trigger w-full flex items-center justify-between px-6 py-5 text-left">
+        <span class="font-display font-semibold text-base">${item.title}</span>
+        <i data-lucide="chevron-down" class="chev w-4 h-4 accent-text shrink-0"></i>
+      </button>
+      <div class="accordion-panel px-6"><p class="text-sm text-faint pb-5 leading-relaxed">${item.content}</p></div>
+    `;
+    accordionEl.appendChild(div);
+    const panel = div.querySelector('.accordion-panel');
+    if (i===0) panel.style.maxHeight = panel.scrollHeight + 'px';
+    div.querySelector('.acc-trigger').addEventListener('click', () => {
+      const isOpen = div.classList.contains('open');
+      accordionEl.querySelectorAll('.accordion-item').forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.accordion-panel').style.maxHeight = null;
+      });
+      if (!isOpen){
+        div.classList.add('open');
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+  if (window.lucide) lucide.createIcons();
+
+  /* ---------------- Volunteer opportunities ---------------- */
+  const opportunities = [
+    { title:'Credit River Shoreline Cleanup', cat:'Environment', date:'Sat, Sep 13, 2026 · 9:00 AM', loc:'Riverwood Conservancy', spots:20 },
+    { title:'Math & Science Peer Tutoring', cat:'Mentorship', date:'Every Tuesday · 3:30–5:00 PM', loc:'Erindale Learning Commons', spots:12 },
+    { title:'Food Bank Sorting Shift', cat:'Food Security', date:'Sun, Sep 21, 2026 · 10:00 AM', loc:'Mississauga Food Bank', spots:15 },
+    { title:'Winter Coat Drive — Collection Team', cat:'Fundraising', date:'Mon–Fri, Nov 2–13, 2026', loc:'Main lobby, Erindale SS', spots:18 },
+    { title:'Reading Buddies — Elementary Visit', cat:'Mentorship', date:'Fridays · 1:00–2:00 PM', loc:'Vista Heights Public School', spots:10 },
+    { title:"Seniors' Tech Help Desk", cat:'Mentorship', date:'2nd Saturday, monthly · 11:00 AM', loc:'Erin Mills Retirement Residence', spots:8 },
+    { title:'Charity 5K Run — Course Marshal', cat:'Fundraising', date:'Sun, Oct 4, 2026 · 7:30 AM', loc:'Jack Darling Memorial Park', spots:25 },
+    { title:'Blood Donor Clinic Support', cat:'Health', date:'Sun, Oct 18, 2026 · 9:00 AM', loc:'Canadian Blood Services, Mississauga', spots:14 }
+  ];
+  const initiativeGrid = document.getElementById('initiativeGrid');
+  function renderInitiatives(filter){
+    initiativeGrid.innerHTML = '';
+    opportunities.filter(i => filter==='all' || i.cat===filter).forEach((i, idx) => {
+      const card = document.createElement('div');
+      card.className = 'card p-7 reveal in flex flex-col';
+      card.innerHTML = `
+        <p class="font-mono text-[10px] tracking-[0.16em] uppercase accent-text mb-3">${i.cat}</p>
+        <h4 class="font-display font-bold text-lg mb-4">${i.title}</h4>
+        <ul class="space-y-2 text-xs font-mono text-faint mb-6">
+          <li class="flex items-center gap-2"><i data-lucide="calendar" class="w-3.5 h-3.5 shrink-0"></i>${i.date}</li>
+          <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5 shrink-0"></i>${i.loc}</li>
+          <li class="flex items-center gap-2"><i data-lucide="users" class="w-3.5 h-3.5 shrink-0"></i><span class="spots-label">${i.spots} spots open</span></li>
+        </ul>
+        <button type="button" data-magnetic class="signup-btn mt-auto inline-flex items-center justify-center gap-2 border border-white/15 text-paper font-mono text-[11px] uppercase tracking-[0.14em] px-5 py-3 hover:border-brass hover:text-brass transition-colors">
+          Sign up
+        </button>
+      `;
+      const btn = card.querySelector('.signup-btn');
+      const spotsLabel = card.querySelector('.spots-label');
+      let spots = i.spots;
+      btn.addEventListener('click', () => {
+        if (btn.dataset.signed === '1') return;
+        btn.dataset.signed = '1';
+        spots = Math.max(0, spots - 1);
+        spotsLabel.textContent = spots + ' spots open';
+        btn.innerHTML = '<span>You\'re in</span>';
+        btn.classList.add('border-brass','text-brass');
+      });
+      initiativeGrid.appendChild(card);
+    });
+    if (window.lucide) lucide.createIcons();
+  }
+  renderInitiatives('all');
+  document.getElementById('initFilters').addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-tab'); if (!btn) return;
+    document.querySelectorAll('#initFilters .filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderInitiatives(btn.dataset.filter);
+  });
+
+  /* ---------------- Jobs ---------------- */
+  const jobs = [
+    { title:'Barista — Weekend Shift', org:'Fresh Grounds Café', cat:'Part-Time', loc:'Mississauga, ON' },
+    { title:'Junior Web Developer Intern', org:'Erindale Tech Partners', cat:'Tech', loc:'Remote' },
+    { title:'Peer Math Tutor', org:'Erindale Learning Commons', cat:'Part-Time', loc:'On campus' },
+    { title:'Junior Graphic Designer', org:'Studio Nine Creative', cat:'Creative', loc:'Mississauga, ON' },
+    { title:'Retail Associate', org:'Square One Shopping Centre', cat:'Part-Time', loc:'Mississauga, ON' },
+    { title:'Apprentice Electrician (Co-op)', org:'BrightPath Electrical', cat:'Trades', loc:'Mississauga, ON' },
+    { title:'Social Media Assistant', org:'Local Roots Non-Profit', cat:'Creative', loc:'Remote' },
+    { title:'HVAC Summer Apprentice', org:'Climate Control Co.', cat:'Trades', loc:'Mississauga, ON' }
+  ];
+  const jobList = document.getElementById('jobList');
+  function renderJobs(filter){
+    jobList.innerHTML = '';
+    jobs.filter(j => filter==='all' || j.cat===filter).forEach(j => {
+      const row = document.createElement('div');
+      row.className = 'card px-6 py-5 flex items-center justify-between flex-wrap gap-4 reveal in';
+      row.innerHTML = `
+        <div>
+          <p class="font-display font-semibold text-base">${j.title}</p>
+          <p class="text-xs text-faint font-mono mt-1">${j.org} · ${j.loc}</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="font-mono text-[10px] uppercase tracking-[0.12em] accent-text border border-brass/30 px-3 py-1.5">${j.cat}</span>
+          <a href="#" data-magnetic class="inline-flex items-center gap-1.5 text-sm font-mono text-paper hover:text-brass transition-colors">Apply <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></a>
+        </div>`;
+      jobList.appendChild(row);
+    });
+    if (window.lucide) lucide.createIcons();
+  }
+  renderJobs('all');
+  document.getElementById('jobFilters').addEventListener('click', (e) => {
+    const btn = e.target.closest('.filter-tab'); if (!btn) return;
+    document.querySelectorAll('#jobFilters .filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderJobs(btn.dataset.filter);
+  });
+
+  /* ---------------- Memory wall ---------------- */
+  const maskGrid = document.getElementById('mask-grid');
+  const seedMemories = [
+    { text:'"We didn\'t just survive it — we made it our own."', name:'Priya N.' },
+    { text:'"See you at the reunion. Bring snacks."', name:'Marcus T.' },
+    { text:'"Room 214 will never be the same without us."', name:'Sofia D\'Angelo' },
+    { text:'"Thanks for the detentions, they built character."', name:'Aiden K.' }
+  ];
+  function addQuoteCard(text, name){
+    const card = document.createElement('div');
+    card.className = 'memory-card card p-6';
+    card.innerHTML = `<p class="font-display text-lg leading-snug mb-4">${text}</p><p class="font-mono text-[11px] uppercase tracking-[0.14em] accent-text">— ${name}</p>`;
+    maskGrid.prepend(card);
+    if (window.gsap) gsap.from(card, { opacity:0, y:20, duration:0.6, ease:'power3.out' });
+  }
+  function addImageCard(src, isVideo){
+    const wrap = document.createElement('div');
+    wrap.className = 'memory-card overflow-hidden relative group cursor-none';
+    wrap.innerHTML = isVideo
+      ? `<video src="${src}" class="w-full h-auto block transition-transform duration-500 group-hover:scale-105" muted loop autoplay playsinline></video>`
+      : `<img src="${src}" class="w-full h-auto block transition-transform duration-500 group-hover:scale-105" alt="Student submitted memory" />`;
+    maskGrid.prepend(wrap);
+    if (window.gsap) gsap.from(wrap, { opacity:0, y:20, duration:0.6, ease:'power3.out' });
+  }
+  seedMemories.forEach(m => addQuoteCard(m.text, m.name));
+
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  function handleFiles(files){
+    [...files].slice(0,6).forEach(file => {
+      if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) return;
+      const reader = new FileReader();
+      reader.onload = (ev) => addImageCard(ev.target.result, file.type.startsWith('video/'));
+      reader.readAsDataURL(file);
+    });
+  }
+  ['dragenter','dragover'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.add('drag-active'); }));
+  ['dragleave','drop'].forEach(evt => dropzone.addEventListener(evt, (e) => { e.preventDefault(); dropzone.classList.remove('drag-active'); }));
+  dropzone.addEventListener('drop', (e) => { if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files); });
+  fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+  document.getElementById('quoteForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = document.getElementById('quoteInput').value.trim();
+    const name = document.getElementById('quoteName').value.trim() || 'Anonymous';
+    if (!text) return;
+    addQuoteCard('"' + text + '"', name);
+    e.target.reset();
+  });
+
+  /* ---------------- Roster marquee ---------------- */
+  const names = ['Priya Natarajan','Marcus Thompson','Sofia D\'Angelo','Aiden Kowalski','Layla Haddad','Noah Bergeron','Emily Zhang','Jayden Osei','Isabella Rossi','Liam Patel','Chloe Nguyen','Ethan Souza','Amara Okafor','Mateo Rodrigues','Grace Kim','Tyler Whitmore','Zainab Ali','Ryan Fitzgerald','Maya Singh','Dylan Mercer','Fatima Siddiqui','Connor Blake','Nadia Petrov','Jordan Reyes','Simone Clarke','Hassan Malik','Olivia Fernandes','Kai Anderson','Yasmin Farouk','Blake Sullivan'];
+  const rosterTrack = document.getElementById('rosterTrack');
+  const rosterHtml = names.map(n => `<span class="px-6 whitespace-nowrap">${n}</span>`).join('<span class="px-2 text-white/15">·</span>');
+  rosterTrack.innerHTML = rosterHtml + rosterHtml;
+
+})();
+</script>
+</body>
+</html>
